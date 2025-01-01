@@ -86,6 +86,9 @@ func Parse(r *bufio.Reader) (*Bundle, error) {
 			if bundle.Prerequisites != nil || bundle.References != nil {
 				return nil, fmt.Errorf("capabilities must come first")
 			}
+			if version == "2" {
+				return nil, fmt.Errorf("capabilities are not supported in version 2 bundles")
+			}
 			capability, err := ParseCapability(line)
 			if err != nil {
 				return nil, err

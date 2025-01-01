@@ -42,27 +42,27 @@ func ParseReference(line []byte) (Reference, error) {
 type References []Reference
 
 // Append appends the references to the given buffer
-func (refs References) Append(b []byte) []byte {
-	for _, ref := range refs {
+func (rr References) Append(b []byte) []byte {
+	for _, ref := range rr {
 		b = append(ref.Append(b), '\n')
 	}
 	return b
 }
 
 // Bytes returns the references as a byte slice
-func (refs References) Bytes() []byte {
-	return refs.Append(nil)
+func (rr References) Bytes() []byte {
+	return rr.Append(nil)
 }
 
 // String implements the fmt.Stringer interface
-func (refs References) String() string {
-	return string(refs.Bytes())
+func (rr References) String() string {
+	return string(rr.Bytes())
 }
 
 // Map converts the slice into a map by reference name
-func (refs References) Map() map[string]ObjectID {
-	m := make(map[string]ObjectID, len(refs))
-	for _, ref := range refs {
+func (rr References) Map() map[string]ObjectID {
+	m := make(map[string]ObjectID, len(rr))
+	for _, ref := range rr {
 		m[ref.Name] = ref.ObjectID
 	}
 	return m
