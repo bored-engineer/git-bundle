@@ -19,7 +19,6 @@ func main() {
 	defer f.Close()
 	br := bufio.NewReader(f)
 
-	// The *bufio.Reader will be at the start of the packfile when Parse returns (without error)
 	bundle, err := gitbundle.Parse(br)
 	if err != nil {
 		log.Fatalf("gitbundle.Parse failed: %v", err)
@@ -29,3 +28,5 @@ func main() {
 	}
 }
 ```
+When [Parse](https://pkg.go.dev/github.com/bored-engineer/git-bundle#Parse) returns the `*bufio.Reader` position will be at the start of the [git packfile](https://git-scm.com/book/en/v2/Git-Internals-Packfiles) section and can be directly read/used by another package such as [go-git's 
+plumbing/format/packfile package](https://pkg.go.dev/github.com/go-git/go-git/v5@v5.13.0/plumbing/format/packfile). Similarly, when [(*Bundle).WriteTo](https://pkg.go.dev/github.com/bored-engineer/git-bundle#Bundle.WriteTo) is used only the bundle header will be written to the provided `io.Writer`, appending the actual packfile contents is left as an exercise for the user.
